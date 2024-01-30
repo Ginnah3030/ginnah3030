@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zesa Project - Purchase</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='background.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Zesa Recharge System</h1>
+        <form id="retrieve-form">
+            <label for="meter_number">Meter Number:</label>
+            <input type="text" id="meter_number" name="meter_number" required>
+            <div class="btn-container">
+                <button type="button" class="btn" onclick="retrieveBalance()">Account Balance left</button>
+                <a href="/consumption_summary" class="btn">Usage Summary</a>
+                <a href="/" class="btn">Go Back to Purchase</a>
+            </div>
+        </form>
+        <div id="balance-container"></div>
+    </div>
+
+    <script>
+        function retrieveBalance() {
+            var meterNumber = document.getElementById('meter_number').value;
+
+            // Use fetch to get the remaining kilowatts for the specified meter number
+            fetch(`/get-remaining-kilowatts/${meterNumber}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Display the retrieved balance
+                    var balanceContainer = document.getElementById('balance-container');
+                    balanceContainer.innerHTML = `<p>Fetching balance for ${meterNumber}...</p>`;
+                    setTimeout(() => {
+                        balanceContainer.innerHTML = `<p>Remaining kilowatts for ${meterNumber}: ${data.remaining_kilowatts}</p>`;
+                    }, 2000); // Simulate a delay for a more animated effect
+                })
+                .catch(error => {
+                    console.error('Error retrieving balance:', error);
+                });
+        }
+
+        function retrieveDailyConsumption() {
+            var meterNumber = document.getElementById('meter_number').value;
+
+            // Use fetch to get the daily consumption for the specified meter number
+            fetch(`/daily_consumption/${meterNumber}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Display the retrieved daily consumption
+                    var balanceContainer = document.getElementById('balance-container');
+                    balanceContainer.innerHTML = `<p>Fetching daily consumption for ${meterNumber}...</p>`;
+                    setTimeout(() => {
+                        balanceContainer.innerHTML = `<p>Daily Consumption for ${meterNumber}: ${data.daily_consumption}</p>`;
+                    }, 2000); // Simulate a delay for a more animated effect
+                })
+                .catch(error => {
+                    console.error('Error retrieving daily consumption:', error);
+                });
+        }
+    </script>
+</body>
+</html>
