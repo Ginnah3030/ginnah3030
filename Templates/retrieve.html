@@ -8,16 +8,16 @@
     <style>
         body {
             background-image: url('{{ url_for('static', filename='background.jpg') }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
         }
 
         .container {
@@ -83,8 +83,8 @@
             <label for="meter_number">Meter Number:</label>
             <input type="text" id="meter_number" name="meter_number" required>
             <div class="btn-container">
-                <button type="button" class="btn" onclick="retrieveBalance()">Account Balance left</button>
-                <a href="/consumption_summary" class="btn">Usage Summary</a>
+                <button type="button" class="btn" onclick="retrieveBalance()">Balance left</button>
+                <button type="button" class="btn" onclick="retrieveDailyConsumption()">Daily Consumption</button>
                 <a href="/" class="btn">Go Back to Purchase</a>
             </div>
         </form>
